@@ -24,3 +24,7 @@ Route::get('/test', function () {
 Route::get('/page1', function () {
     return "some information";
 });
+
+Route::view('/', 'index');
+Route::view('/about', 'about');
+Route::view('/news', 'news');

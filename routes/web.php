@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\IndexController as AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,18 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [IndexController::class, 'index'])->name('home');
+Route::view('/about', 'about')->name('about');
 
-Route::get('/test', function () {
-    return "hello, world!";
-});
+Route::name('news.')
+    ->prefix('news')
+    ->group(function(){
+        Route::get('/', [NewsController::class, 'index'])->name('index');
+        Route::get('/{id}', [NewsController::class, 'show'])->name('one');
+    });
 
-Route::get('/page1', function () {
-    return "some information";
-});
-
-Route::view('/', 'index');
-Route::view('/about', 'about');
-Route::view('/news', 'news');
+Route::name('admin.')
+    ->prefix('admin')
+    ->group(function(){
+        Route::get('/', [AdminController::class, 'index'])->name('index');
+        Route::get('/test', [AdminController::class, 'test'])->name('test');
+        Route::get('/test_1', [AdminController::class, 'test_1'])->name('test_1');
+    });

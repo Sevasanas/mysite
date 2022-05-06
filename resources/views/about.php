@@ -1,3 +1,3 @@
 <?php
-include 'menu.php';
-echo '<h3>About</h3>';
+ include 'news/menu.php' ?>
+ <h2>О нас</h2>

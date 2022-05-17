@@ -1,3 +1,4 @@
 <?php
-include 'menu.php';
-echo '<h3>Hello World!</h3>';
+include 'news/menu.php' ?>
+<h2>Главная</h2>
+<p>Добро пожаловать!</p>

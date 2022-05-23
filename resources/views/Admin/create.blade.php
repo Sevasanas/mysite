@@ -20,7 +20,7 @@
                                 <input type="text" name="title" id="newsTitle" class="form-control" value="{{ old('title') }}">
 
                                 <label for="newsCategory">Категория:</label>
-                                <select name="category" id="newsCategory"  class="form-control">
+                                <select name="category_id" id="newsCategory"  class="form-control">
                                     @foreach($categories as $item)
                                         <option
                                             @if ($item['id'] == old('category')) selected @endif
@@ -29,13 +29,10 @@
                                     @endforeach
                                 </select>
 
-                                <label for="newsText">Текст:</label>
-                                <textarea name="text" id="newsText" class="form-control">{{ old('text') }}</textarea>
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox"
-                                        @if (old('isPrivate')) checked @endif
-                                        name="isPrivate" value="1">
+                                        @if (old('isPrivate')) checked @endif name="isPrivate" value="1">
                                     <label for="newsPrivate">Приватная</label>
                                 </div>
                             </div>

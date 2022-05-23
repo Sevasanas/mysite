@@ -20,13 +20,11 @@ class IndexController extends Controller
             $request->flash();
             $arr = $request->except('_token');
 
-            File::put(storage_path() . '/news.json', json_encode($arr, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
-
-            dd($arr);
-
-            //TODO прочитать файл новостей в массив
-            //TODO добавить в массив
-            //TODO сохранить новость в файл в json
+            $arrId = ['id' => rand(5, 100)] + $arr;
+            $news_arr = $news->getNews(); 
+            $result  =  array_merge($news_arr, [$arrId]); 
+            File::put(storage_path() . '/news.json', json_encode($result, JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
+            dd($result);
             return redirect()->route('admin.create');
         }
 

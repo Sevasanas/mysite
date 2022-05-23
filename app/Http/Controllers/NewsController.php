@@ -7,16 +7,14 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
-    public function index()
+    public function index(News $news)
     {
-        $news = News::getNews();
+        
         return view('news.index')->with('news', $news);
     }
 
-    public function show($id)
+    public function show(News $news, $id)
     {
-        $news = News::getNewsId($id);
-        dd($news);
-        return view('news.one')->with('news', $news);
+        return view('news.one')->with('news', $news->getNewsById($id));
     }
 }

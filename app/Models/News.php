@@ -1,32 +1,72 @@
 <?php
 
 namespace App\Models;
+use App\Models\Categories;
+use Illuminate\Support\Facades\File;
 
 class News
 {
-    private static $news = [
-        [
+    private Categories $category;
+    private array $news = [
+        '1' => [
             'id' => 1,
             'title' => 'Новость 1',
-            'text' => 'А у нас новость 1 и она очень хорошая!'
+            'text' => 'А у нас новость 1 и она очень хорошая!',
+            'category_id' => 1,
+            'isPrivate' => true
         ],
-        [
+        '2' => [
             'id' => 2,
             'title' => 'Новость 2',
-            'text' => 'А тут плохие новости((('
+            'text' => 'А тут плохие новости(((',
+            'category_id' => 2,
+            'isPrivate' => false
+        ],
+        '3' => [
+            'id' => 3,
+            'title' => 'Новость 1',
+            'text' => 'А у нас новость 1 и она очень хорошая!',
+            'category_id' => 1,
+            'isPrivate' => true
+        ],
+        '4' => [
+            'id' => 4,
+            'title' => 'Новость 2',
+            'text' => 'А тут плохие новости(((',
+            'category_id' => 2,
+            'isPrivate' => false
         ]
     ];
-
-    public static function getNews(): array
+    
+    public function __construct(Categories $category)
     {
-        return static::$news;
+        $this->category = $category;
+    }
+    public function getNews() //вывод новостей из файла
+    {
+        $news = File::get(storage_path() . '/news.json');
+        return json_decode($news, true);
+    }
+    public function getNewsByCategorySlug($slug): array
+    {
+        $id = $this->category->getCategoryIdBySlug($slug);
+        return $this->getNewsByCategoryId($id);
     }
 
-    public static function getNewsId($id)
+    public function getNewsByCategoryId($id): array
     {
-        foreach (static::getNews() as $news){
-            if($news['id'] == $id) return $news;
+        $news = [];
+        foreach ($this->getNews() as $item) {
+            if ($item['category_id'] == $id) {
+                $news[] = $item;
+            }
         }
-        return [];
+        return $news;
     }
+    public function getNewsById($id)
+    {
+        return $this->getNews()[$id] ?? [];
+    }
+
+  
 }

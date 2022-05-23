@@ -16,8 +16,9 @@ use App\Http\Controllers\Admin\IndexController as AdminController;
 |
 */
 
+Auth::routes();
 Route::get('/', [IndexController::class, 'index'])->name('home');
-Route::view('/about', 'about')->name('about');
+
 
 Route::name('news.')
     ->prefix('news')
@@ -33,3 +34,13 @@ Route::name('admin.')
         Route::get('/test', [AdminController::class, 'test'])->name('test');
         Route::get('/test_1', [AdminController::class, 'test_1'])->name('test_1');
     });
+
+    Route::name('admin.')
+    ->prefix('admin')
+    ->group(function () {
+        Route::get('/', [AdminController::class, 'index'])->name('index');
+        Route::get('/test1', [AdminController::class, 'test1'])->name('test1');
+        Route::get('/test2', [AdminController::class, 'test2'])->name('test2');
+        Route::match(['get', 'post'],'/create', [AdminController::class, 'create'])->name('create');
+    });
+    Route::view('/about', 'about')->name('about');
